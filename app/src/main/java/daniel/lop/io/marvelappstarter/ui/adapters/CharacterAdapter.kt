@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import daniel.lop.io.marvelappstarter.R
-import daniel.lop.io.marvelappstarter.data.model.character.ComicModel
+import daniel.lop.io.marvelappstarter.data.model.character.CharacterModel
 import daniel.lop.io.marvelappstarter.databinding.ItemCharacterBinding
 import daniel.lop.io.marvelappstarter.util.limitDescription
 
@@ -16,12 +16,12 @@ class CharacterAdapter:RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder
     inner class CharacterViewHolder(val binding: ItemCharacterBinding):
             RecyclerView.ViewHolder(binding.root)
 
-    private val differCallBack = object :DiffUtil.ItemCallback<ComicModel>(){
-        override fun areItemsTheSame(oldItem: ComicModel, newItem: ComicModel): Boolean {
+    private val differCallBack = object :DiffUtil.ItemCallback<CharacterModel>(){
+        override fun areItemsTheSame(oldItem: CharacterModel, newItem: CharacterModel): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: ComicModel, newItem: ComicModel): Boolean {
+        override fun areContentsTheSame(oldItem: CharacterModel, newItem: CharacterModel): Boolean {
             return oldItem.id == newItem.id
         }
 
@@ -29,7 +29,7 @@ class CharacterAdapter:RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder
 
     private val differ = AsyncListDiffer(this,differCallBack)
 
-    var characters : List<ComicModel>
+    var characters : List<CharacterModel>
     get() = differ.currentList
     set(value) = differ.submitList(value)
 
@@ -51,7 +51,7 @@ class CharacterAdapter:RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder
                 tvDescriptionCharacter.text  = character.description.limitDescription(100)
             }
             Glide.with(holder.itemView.context)
-                .load(character.thumbmail.path +"."+character.thumbmail.extension)
+                .load(character.thumbnail.path +"."+character.thumbnail.extension)
                 .into(imgCharacter)
         }
 
@@ -64,9 +64,9 @@ class CharacterAdapter:RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder
 
     override fun getItemCount():Int =  characters.size
 
-    private var onItemClickListener:((ComicModel)->Unit) ? = null
+    private var onItemClickListener:((CharacterModel)->Unit) ? = null
 
-    fun setOnclickListener(listener:(ComicModel)->Unit){
+    fun setOnclickListener(listener:(CharacterModel)->Unit){
         onItemClickListener = listener
     }
 }

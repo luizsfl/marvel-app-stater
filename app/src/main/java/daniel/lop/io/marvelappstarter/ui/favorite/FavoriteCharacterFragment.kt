@@ -6,9 +6,10 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import daniel.lop.io.marvelappstarter.databinding.FragmentFavoriteCharacterBinding
 import daniel.lop.io.marvelappstarter.ui.base.BaseFragment
+
 @AndroidEntryPoint
-class FavoriteCharacterFragment :BaseFragment<FragmentFavoriteCharacterBinding,FavoriteCharacterModel>(){
-    override val viewModel: FavoriteCharacterModel by viewModels()
+class FavoriteCharacterFragment :BaseFragment<FragmentFavoriteCharacterBinding,FavoriteCharacterViewModel>(){
+    override val viewModel: FavoriteCharacterViewModel by viewModels()
 
     override fun getViewBinding(
         inflater: LayoutInflater,

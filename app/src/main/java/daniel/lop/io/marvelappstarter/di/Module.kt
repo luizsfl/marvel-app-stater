@@ -1,5 +1,6 @@
 package daniel.lop.io.marvelappstarter.di
 
+import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -16,7 +17,7 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import javax.inject.Singleton
 
-@dagger.Module
+@Module
 @InstallIn(SingletonComponent::class)
 object Module {
 
@@ -34,7 +35,7 @@ object Module {
                     .addQueryParameter(Constants.TS,currentTimesTemp.toString())
                     .addQueryParameter(Constants.APIKEY,Constants.PUBLIC_KEY)
                     .addQueryParameter(Constants.HASH,
-                        provideToMd5Hash(currentTimesTemp.toString()+Constants.PUBLIC_KEY+Constants.PUBLIC_KEY)
+                        provideToMd5Hash(currentTimesTemp.toString()+Constants.PRIVATE_KEY+Constants.PUBLIC_KEY)
                         )
                     .build()
                 val newRequest = chain.request()

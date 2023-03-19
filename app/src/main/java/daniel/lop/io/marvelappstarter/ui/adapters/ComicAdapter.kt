@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import daniel.lop.io.marvelappstarter.data.model.character.ComicModel
+import daniel.lop.io.marvelappstarter.data.model.character.CharacterModel
 import daniel.lop.io.marvelappstarter.databinding.ItemComicBinding
 import daniel.lop.io.marvelappstarter.util.limitDescription
 
@@ -15,12 +15,12 @@ class ComicAdapter:RecyclerView.Adapter<ComicAdapter.ComicViewHolder>() {
     inner class ComicViewHolder(val binding: ItemComicBinding):
             RecyclerView.ViewHolder(binding.root)
 
-    private val differCallBack = object :DiffUtil.ItemCallback<ComicModel>(){
-        override fun areItemsTheSame(oldItem: ComicModel, newItem: ComicModel): Boolean {
+    private val differCallBack = object :DiffUtil.ItemCallback<CharacterModel>(){
+        override fun areItemsTheSame(oldItem: CharacterModel, newItem: CharacterModel): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: ComicModel, newItem: ComicModel): Boolean {
+        override fun areContentsTheSame(oldItem: CharacterModel, newItem: CharacterModel): Boolean {
             return oldItem.id == newItem.id
         }
 
@@ -28,7 +28,7 @@ class ComicAdapter:RecyclerView.Adapter<ComicAdapter.ComicViewHolder>() {
 
     private val differ = AsyncListDiffer(this,differCallBack)
 
-    var comics : List<ComicModel>
+    var comics : List<CharacterModel>
     get() = differ.currentList
     set(value) = differ.submitList(value)
 
@@ -47,7 +47,7 @@ class ComicAdapter:RecyclerView.Adapter<ComicAdapter.ComicViewHolder>() {
             tvDescriptionComic.text  = comic.description.limitDescription(100)
 
             Glide.with(holder.itemView.context)
-                .load(comic.thumbmail.path +"."+comic.thumbmail.extension)
+                .load(comic.thumbnail.path +"."+comic.thumbnail.extension)
                 .into(imgComic)
         }
     }

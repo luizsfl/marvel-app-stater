@@ -1,10 +1,10 @@
 package daniel.lop.io.marvelappstarter.data.model.comic
 
-import daniel.lop.io.marvelappstarter.data.model.ThumbmailModel
+import daniel.lop.io.marvelappstarter.data.model.ThumbnailModel
 
 data class ComicModel(
     val id:Int,
     val title:String,
     val description:String,
-    val thumbmail: ThumbmailModel
+    val thumbmail: ThumbnailModel
 ):java.io.Serializable

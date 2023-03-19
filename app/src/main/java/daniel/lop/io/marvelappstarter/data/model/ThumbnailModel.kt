@@ -2,10 +2,9 @@ package daniel.lop.io.marvelappstarter.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ThumbmailModel (
-
+data class ThumbnailModel (
     @SerializedName("path")
     val path:String,
-    @SerializedName("path")
+    @SerializedName("extension")
     val extension:String
     )
