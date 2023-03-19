@@ -11,7 +11,7 @@
         android:name="daniel.lop.io.marvelappstarter.ui.details.DetailsCharacterFragment"
         android:label="DetailsCharacterFragment" >
         <argument
-            android:name="characterid"
+            android:name="character"
             app:argType="daniel.lop.io.marvelappstarter.data.model.character.CharacterModel" />
     </fragment>
     <fragment
