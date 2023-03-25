@@ -1,6 +1,7 @@
 package daniel.lop.io.marvelappstarter.data.remote
 
 import daniel.lop.io.marvelappstarter.data.model.character.CharacterModelResponse
+import daniel.lop.io.marvelappstarter.data.model.comic.ComicModelResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,9 +16,9 @@ interface ServiceApi {
 
     @GET("characters/{characterId}/comics")
     suspend fun getComics(
-        @Path(value ="characterID",
+        @Path(value ="characterId",
             encoded = true
             ) characterID : Int
 
-    ):Response<CharacterModelResponse>
+    ):Response<ComicModelResponse>
 }

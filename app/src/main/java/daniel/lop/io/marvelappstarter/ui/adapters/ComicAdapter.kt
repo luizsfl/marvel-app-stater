@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import daniel.lop.io.marvelappstarter.data.model.character.CharacterModel
+import daniel.lop.io.marvelappstarter.R
+import daniel.lop.io.marvelappstarter.data.model.comic.ComicModel
 import daniel.lop.io.marvelappstarter.databinding.ItemComicBinding
 import daniel.lop.io.marvelappstarter.util.limitDescription
 
@@ -15,12 +16,12 @@ class ComicAdapter:RecyclerView.Adapter<ComicAdapter.ComicViewHolder>() {
     inner class ComicViewHolder(val binding: ItemComicBinding):
             RecyclerView.ViewHolder(binding.root)
 
-    private val differCallBack = object :DiffUtil.ItemCallback<CharacterModel>(){
-        override fun areItemsTheSame(oldItem: CharacterModel, newItem: CharacterModel): Boolean {
+    private val differCallBack = object :DiffUtil.ItemCallback<ComicModel>(){
+        override fun areItemsTheSame(oldItem: ComicModel, newItem: ComicModel): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: CharacterModel, newItem: CharacterModel): Boolean {
+        override fun areContentsTheSame(oldItem: ComicModel, newItem: ComicModel): Boolean {
             return oldItem.id == newItem.id
         }
 
@@ -28,7 +29,7 @@ class ComicAdapter:RecyclerView.Adapter<ComicAdapter.ComicViewHolder>() {
 
     private val differ = AsyncListDiffer(this,differCallBack)
 
-    var comics : List<CharacterModel>
+    var comics : List<ComicModel>
     get() = differ.currentList
     set(value) = differ.submitList(value)
 
@@ -43,11 +44,19 @@ class ComicAdapter:RecyclerView.Adapter<ComicAdapter.ComicViewHolder>() {
     override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
         val comic = comics[position]
         holder.binding.apply {
-            tvNameComic.text = comic.name
-            tvDescriptionComic.text  = comic.description.limitDescription(100)
+            if(comic.title.isNullOrEmpty()){
+                tvNameComic.text  = holder.itemView.context.getString(R.string.tx_item_name)
+            }else{
+                tvNameComic.text = comic.title
+            }
+            if(comic.description.isNullOrEmpty()){
+                tvDescriptionComic.text  = holder.itemView.context.getString(R.string.empty_list_comics)
+            }else{
+                tvDescriptionComic.text  = comic.description.limitDescription(100)
+            }
 
             Glide.with(holder.itemView.context)
-                .load(comic.thumbnail.path +"."+comic.thumbnail.extension)
+                .load(comic.thumbmail.path +"."+comic.thumbmail.extension)
                 .into(imgComic)
         }
     }
