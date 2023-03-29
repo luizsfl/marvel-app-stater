@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import daniel.lop.io.marvelappstarter.R
 import daniel.lop.io.marvelappstarter.data.model.character.CharacterModel
@@ -20,6 +21,7 @@ import daniel.lop.io.marvelappstarter.util.show
 import daniel.lop.io.marvelappstarter.util.toast
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -31,12 +33,34 @@ class DetailsCharacterFragment:
     private val comicAdapter by lazy { ComicAdapter() }
     private lateinit var characterModel : CharacterModel
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         characterModel = args.character
         viewModel.fetch(characterModel.id)
         setupRecycleView()
         onLoadedCharacter(characterModel)
         collectObserver()
+        binding.tvDescriptionCharacterDetails.setOnClickListener{
+            onShowDialog(characterModel)
+        }
+    }
+
+    private fun onShowDialog(characterModel: CharacterModel) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(characterModel.name)
+            .setMessage(characterModel.description)
+            .setNegativeButton(getString(R.string.close_dialog)){ dialog,_ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun collectObserver()  = lifecycleScope.launch{
@@ -73,7 +97,7 @@ class DetailsCharacterFragment:
         if (characterModel.description.isEmpty()){
             tvDescriptionCharacterDetails.text = requireContext().getString(R.string.text_description_empty).limitDescription(100)
         }else{
-            tvDescriptionCharacterDetails.text = characterModel.description
+            tvDescriptionCharacterDetails.text = characterModel.description.limitDescription(100)
         }
 
         Glide.with(requireContext())
@@ -97,7 +121,7 @@ class DetailsCharacterFragment:
         when(item.itemId)
         {
             R.id.favorite -> {
-               // viewModel.inset(characterModel)
+                viewModel.inset(characterModel)
                 toast(getString(R.string.saved_successfully))
             }
         }
