@@ -49,5 +49,4 @@ class ListCharacterViewModel @Inject constructor(
         }
         return ResourceState.Error(response.message())
     }
-
 }

@@ -10,6 +10,7 @@ import daniel.lop.io.marvelappstarter.R
 import daniel.lop.io.marvelappstarter.data.model.comic.ComicModel
 import daniel.lop.io.marvelappstarter.databinding.ItemComicBinding
 import daniel.lop.io.marvelappstarter.util.limitDescription
+import daniel.lop.io.marvelappstarter.util.loadImage
 
 class ComicAdapter:RecyclerView.Adapter<ComicAdapter.ComicViewHolder>() {
 
@@ -55,9 +56,8 @@ class ComicAdapter:RecyclerView.Adapter<ComicAdapter.ComicViewHolder>() {
                 tvDescriptionComic.text  = comic.description.limitDescription(100)
             }
 
-            Glide.with(holder.itemView.context)
-                .load(comic.thumbmail.path +"."+comic.thumbmail.extension)
-                .into(imgComic)
+            loadImage(imgComic,comic.thumbmail.path,comic.thumbmail.extension)
+
         }
     }
 

@@ -15,13 +15,9 @@ import daniel.lop.io.marvelappstarter.databinding.FragmentDetailsCharacterBindin
 import daniel.lop.io.marvelappstarter.ui.adapters.ComicAdapter
 import daniel.lop.io.marvelappstarter.ui.base.BaseFragment
 import daniel.lop.io.marvelappstarter.ui.state.ResourceState
-import daniel.lop.io.marvelappstarter.util.hide
-import daniel.lop.io.marvelappstarter.util.limitDescription
-import daniel.lop.io.marvelappstarter.util.show
-import daniel.lop.io.marvelappstarter.util.toast
+import daniel.lop.io.marvelappstarter.util.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import okhttp3.internal.notify
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -48,7 +44,11 @@ class DetailsCharacterFragment:
         setupRecycleView()
         onLoadedCharacter(characterModel)
         collectObserver()
-        binding.tvDescriptionCharacterDetails.setOnClickListener{
+        descriptionCharacter()
+    }
+
+    private fun descriptionCharacter() {
+        binding.tvDescriptionCharacterDetails.setOnClickListener {
             onShowDialog(characterModel)
         }
     }
@@ -85,7 +85,6 @@ class DetailsCharacterFragment:
                 }
                 is ResourceState.Loading -> {
                     binding.progressBarDetail.show()
-
                 }
                else -> {}
             }
@@ -100,9 +99,7 @@ class DetailsCharacterFragment:
             tvDescriptionCharacterDetails.text = characterModel.description.limitDescription(100)
         }
 
-        Glide.with(requireContext())
-            .load(characterModel.thumbnail.path + "." + characterModel.thumbnail.extension)
-            .into(imgCharacterDetails)
+        loadImage(imgCharacterDetails,characterModel.thumbnail.path,characterModel.thumbnail.extension)
     }
 
     private fun setupRecycleView() = with(binding){
@@ -128,16 +125,10 @@ class DetailsCharacterFragment:
         return super.onOptionsItemSelected(item)
     }
 
-
     override val viewModel: DetailsCharacterViewModel by viewModels()
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentDetailsCharacterBinding =
         FragmentDetailsCharacterBinding.inflate(inflater,container,false)
-
-
-
-
-
 }

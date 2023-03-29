@@ -39,7 +39,6 @@ class ListCharacterFragment :BaseFragment<FragmentListCharacterBinding,ListChara
         container: ViewGroup?
     ): FragmentListCharacterBinding {
         return FragmentListCharacterBinding.inflate(inflater,container,false)
-
     }
 
     private fun collectObserve() = lifecycleScope.launch {
